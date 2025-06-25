@@ -87,6 +87,11 @@ def generate_yolo_dataset():
                     yolo_center_y = center_y / image_height
                     yolo_width = bbox_width / image_width
                     yolo_height = bbox_height / image_height
+
+                    if yolo_center_x < 0 or yolo_center_x > 1 or yolo_center_y < 0 or yolo_center_y > 1 or \
+                       yolo_width <= 0 or yolo_width > 1 or yolo_height <= 0 or yolo_height > 1:
+                        print(f"Invalid YOLO coordinates for frame {frame_id}: ({yolo_center_x}, {yolo_center_y}, {yolo_width}, {yolo_height})")
+                        continue
                     
                     
                     if frame_id not in frame_index_to_label:
@@ -221,12 +226,12 @@ def randomly_select_images_for_val():
 if __name__ == "__main__":
     
 
-    generate_yolo_dataset()
+    # generate_yolo_dataset()
     
-    # visulize_rsipac_dataset()
+    visulize_rsipac_dataset()
 
 
-    randomly_select_images_for_val()
+    # randomly_select_images_for_val()
 
 
 
