@@ -3,16 +3,21 @@ from ultralytics import YOLO
 # Load a model
 # model = YOLO("yolo11n.yaml")  # build a new model from YAML
 # model = YOLO("yolo11n.pt")  # load a pretrained model (recommended for training)
-model = YOLO("yolo11l.yaml")  # build from YAML and transfer weights
+model = YOLO("yolo11l.yaml")#.load('yolo11l.pt')  # build from YAML and transfer weights
 
 # Train the model
 results = model.train(
     data="ultralytics/cfg/datasets/rsipac.yaml", 
     epochs=100, 
-    imgsz=1024,
-    batch=2,
+    imgsz=640,
+    batch=8,
     save_period=50,
-    # cache="ram",
+    cache="disk",
     optimizer="Adam",
     cos_lr=True,
-    lr0=0.001)
+    lr0=0.01,
+    close_mosaic=True,
+    # single_cls=True,
+    amp=True,
+    plots=True,
+)

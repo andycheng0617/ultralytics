@@ -165,7 +165,7 @@ def visulize_rsipac_dataset():
                     class_id, x1, y1, x2, y2 = label
                     
                     # Draw rectangle
-                    cv2.rectangle(image, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
+                    cv2.rectangle(image, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 1)
         
                 # Show image
                 cv2.imshow("Image", image)
@@ -223,15 +223,47 @@ def randomly_select_images_for_val():
         
 
 
+
+def visualize_bbox_from_yolo():
+    
+    bboxes = []
+    label_path = "../datasets/2/labels/train2025/1-2-0.txt"  # 替换为你的标签路径
+    with open(label_path, 'r') as f:
+        for line in f.readlines():
+            parts = line.strip().split()
+            if len(parts) == 5:
+                class_id, x_center, y_center, width, height = map(float, parts)
+                bboxes.append((x_center, y_center, width, height))  # 假设格式为 xywh 归一化
+    
+    image_path = "../datasets/2/images/train2025/1-2-0.jpg"  # 替换为你的图片路径
+    
+    
+    img = cv2.imread(image_path)
+    for bbox in bboxes:
+        x, y, w, h = bbox  # 假设格式为 xywh 归一化
+        H, W = img.shape[:2]
+        x1, y1 = int((x - w/2) * W), int((y - h/2) * H)
+        x2, y2 = int((x + w/2) * W), int((y + h/2) * H)
+        cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 1)
+    cv2.imshow("Image with BBoxes", img)
+    cv2.waitKey(0)
+
+
+
+
 if __name__ == "__main__":
     
 
     # generate_yolo_dataset()
     
-    visulize_rsipac_dataset()
-
-
     # randomly_select_images_for_val()
+    
+    # visulize_rsipac_dataset()
+    
+    visualize_bbox_from_yolo()
+
+
+    
 
 
 
