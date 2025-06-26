@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append('/home/uer/Documents/temp/rsipac/ultralytics')
+
 from ultralytics import YOLO
 
 # Load a model
