@@ -1,13 +1,13 @@
 import sys
 
-sys.path.append('/home/uer/Documents/temp/rsipac/ultralytics')
+sys.path.append('/home/zwcheng/Work/competition/rsipac/ultralytics/')
 
 from ultralytics import YOLO
 
 # Load a model
 # model = YOLO("yolo11n.yaml")  # build a new model from YAML
 # model = YOLO("yolo11n.pt")  # load a pretrained model (recommended for training)
-model = YOLO("yolo11l.yaml")#.load('yolo11l.pt')  # build from YAML and transfer weights
+model = YOLO("yolo11l.yaml").load('yolo11l-cls.pt')  # build from YAML and transfer weights
 
 # Train the model
 results = model.train(
@@ -21,7 +21,8 @@ results = model.train(
     cos_lr=True,
     lr0=0.01,
     close_mosaic=True,
-    # single_cls=True,
+    single_cls=True,
     amp=True,
     plots=True,
+    deterministic=False,
 )

@@ -482,6 +482,7 @@ def initialize_weights(model):
     """Initialize model weights to random values."""
     for m in model.modules():
         t = type(m)
+        # print({t.__name__})
         if t is nn.Conv2d:
             pass  # nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
         elif t is nn.BatchNorm2d:
@@ -489,6 +490,32 @@ def initialize_weights(model):
             m.momentum = 0.03
         elif t in {nn.Hardswish, nn.LeakyReLU, nn.ReLU, nn.ReLU6, nn.SiLU}:
             m.inplace = True
+
+# def initialize_weights(model):
+#     """
+#     Initialize model weights to random values.
+#     """
+#     for m in model.modules():
+#         t = type(m)
+#         if t is nn.Conv2d:
+#             # Kaiming (He) initialization for Conv2d layers
+#             nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+#             if m.bias is not None:
+#                 nn.init.constant_(m.bias, 0)
+#         elif t is nn.BatchNorm2d:
+#             # BatchNorm2d initialization
+#             nn.init.constant_(m.weight, 1)
+#             nn.init.constant_(m.bias, 0)
+#             m.eps = 1e-3
+#             m.momentum = 0.03
+#         elif t in {nn.Linear}:
+#             # Xavier initialization for Linear layers
+#             nn.init.xavier_normal_(m.weight)
+#             if m.bias is not None:
+#                 nn.init.constant_(m.bias, 0)
+#         elif t in {nn.Hardswish, nn.LeakyReLU, nn.ReLU, nn.ReLU6, nn.SiLU}:
+#             # Set inplace=True for activation layers
+#             m.inplace = True
 
 
 def scale_img(img, ratio=1.0, same_shape=False, gs=32):
